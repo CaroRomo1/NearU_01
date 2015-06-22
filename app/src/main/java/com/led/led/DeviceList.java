@@ -170,6 +170,7 @@ public class DeviceList extends ActionBarActivity {
                 rssi_msg.setText(rssi_msg.getText() + name + " => " + rssi + "dBm\n");
                 if (rssi <-90){
                     vibrar();
+                    //hola funciona
                 }
             }
         }
