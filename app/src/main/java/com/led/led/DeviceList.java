@@ -1,9 +1,15 @@
 package com.led.led;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Vibrator;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,14 +17,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.IntentFilter;
-import android.content.Context;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.os.Vibrator;
 
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -27,16 +27,49 @@ import java.util.Set;
 
 public class DeviceList extends ActionBarActivity {
 
+    public static String EXTRA_ADDRESS = "device_address";
     Button btnPaired;
     Button btStart;
     ListView devicelist;
     boolean repeat = false;
     int rssi = 0;
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
 
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                ArrayList list2 = new ArrayList();
+                rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE);
+                String name = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
+                list2.add(name + " => " + rssi + "dBm\n");
+                //rssi_msg.setText(rssi_msg.getText() + name + " => " + rssi + "dBm\n");
+                if (rssi < -90) {
+                    vibrar();
+                    Toast myToast = new Toast(getApplicationContext());
+                    myToast.setGravity(9, 7, 7);
+                    Toast.makeText(getApplicationContext(), "¡Estas olvidando tu dispositivo!" +
+                            name, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    };
     private BluetoothAdapter myBluetooth = null;
     private Set<BluetoothDevice> pairedDevices;
     private OutputStream outStream = null;
-    public static String EXTRA_ADDRESS = "device_address";
+    private AdapterView.OnItemClickListener myListClickListener = new AdapterView.OnItemClickListener() {
+        public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
+            // Get the device MAC address, the last 17 chars in the View
+            String info = ((TextView) v).getText().toString();
+            String address = info.substring(info.length() - 17);
+
+            // Make an intent to start next activity.
+            Intent i = new Intent(DeviceList.this, ledControl.class); //Change the activity.
+
+            i.putExtra(EXTRA_ADDRESS, address); //this will be received at ledControl (class) Activity
+            startActivity(i);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +86,8 @@ public class DeviceList extends ActionBarActivity {
         if (myBluetooth == null)
         {
             //Show a mensag. that thedevice has no bluetooth adapter
-            Toast.makeText(getApplicationContext(), "Bluetooth Device Not Available", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Bluetooth Device Not Available",
+                    Toast.LENGTH_LONG).show();
             //finish apk
             finish();
         }
@@ -107,34 +141,18 @@ public class DeviceList extends ActionBarActivity {
         ArrayList list = new ArrayList();
 
         if (pairedDevices.size() > 0) {
-            for (BluetoothDevice bt : pairedDevices)
-            {
+            for (BluetoothDevice bt : pairedDevices) {
                 list.add(bt.getName() + "\n" + bt.getAddress());
             }
         } else {
-            Toast.makeText(getApplicationContext(), "No Paired Bluetooth Devices Found.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "No Paired Bluetooth Devices Found.",
+                    Toast.LENGTH_LONG).show();
         }
 
         final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
         devicelist.setAdapter(adapter);
         devicelist.setOnItemClickListener(myListClickListener);
     }
-
-    private AdapterView.OnItemClickListener myListClickListener = new AdapterView.OnItemClickListener()
-    {
-        public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3)
-        {
-            // Get the device MAC address, the last 17 chars in the View
-            String info = ((TextView) v).getText().toString();
-            String address = info.substring(info.length() - 17);
-
-            // Make an intent to start next activity.
-            Intent i = new Intent(DeviceList.this, ledControl.class); //Change the activity.
-
-            i.putExtra(EXTRA_ADDRESS, address); //this will be received at ledControl (class) Activity
-            startActivity(i);
-        }
-    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -157,22 +175,4 @@ public class DeviceList extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    private final BroadcastReceiver receiver = new BroadcastReceiver(){
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            String action = intent.getAction();
-            if(BluetoothDevice.ACTION_FOUND.equals(action)) {
-                rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI,Short.MIN_VALUE);
-                String name = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
-                TextView rssi_msg = (TextView) findViewById(R.id.textView1);
-                rssi_msg.setText(rssi_msg.getText() + name + " => " + rssi + "dBm\n");
-                if (rssi <-90){
-                    vibrar();
-                    //hola funciona
-                }
-            }
-        }
-    };
 }
