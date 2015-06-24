@@ -20,7 +20,7 @@
     </layouts>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60a48ac4-b262-4d4e-825e-9e9825adeab4" name="Default" comment="Correccion Lista">
+    <list default="true" id="60a48ac4-b262-4d4e-825e-9e9825adeab4" name="Default" comment="workspace">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LED copia.iws" />
@@ -1551,7 +1551,13 @@
       <option name="project" value="LOCAL" />
       <updated>1435181589284</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="workspace">
+      <created>1435181812807</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1435181812807</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1635,7 +1641,8 @@
     <MESSAGE value="Junio 23" />
     <MESSAGE value="Junio 24" />
     <MESSAGE value="Correccion Lista" />
-    <option name="LAST_COMMIT_MESSAGE" value="Correccion Lista" />
+    <MESSAGE value="workspace" />
+    <option name="LAST_COMMIT_MESSAGE" value="workspace" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
