@@ -34,6 +34,7 @@ public class DeviceList extends ActionBarActivity {
     ListView rssilist;
     boolean repeat = false;
     int rssi = 0;
+
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -45,7 +46,7 @@ public class DeviceList extends ActionBarActivity {
                 String name = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
                 list2.add(name + " => " + rssi + "dBm\n");
                 //rssi_msg.setText(rssi_msg.getText() + name + " => " + rssi + "dBm\n");
-                ArrayAdapter adapter2 = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list2);
+                ArrayAdapter adapter2 = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list2);
                 rssilist.setAdapter(adapter2);
                 if (rssi < -90) {
                     vibrar();
