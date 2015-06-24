@@ -8,6 +8,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".DeviceList">
 
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -22,7 +23,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView"
-        android:choiceMode="none" />
+        android:choiceMode="singleChoice" />
 
     <Button
         android:id="@+id/button"

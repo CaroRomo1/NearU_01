@@ -31,6 +31,7 @@ public class DeviceList extends ActionBarActivity {
     Button btnPaired;
     Button btStart;
     ListView devicelist;
+    ListView rssilist;
     boolean repeat = false;
     int rssi = 0;
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -44,11 +45,13 @@ public class DeviceList extends ActionBarActivity {
                 String name = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
                 list2.add(name + " => " + rssi + "dBm\n");
                 //rssi_msg.setText(rssi_msg.getText() + name + " => " + rssi + "dBm\n");
+                ArrayAdapter adapter2 = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list2);
+                rssilist.setAdapter(adapter2);
                 if (rssi < -90) {
                     vibrar();
                     Toast myToast = new Toast(getApplicationContext());
                     myToast.setGravity(9, 7, 7);
-                    Toast.makeText(getApplicationContext(), "¡Estas olvidando tu dispositivo!" +
+                    Toast.makeText(getApplicationContext(), "¡Estas olvidando tu dispositivo!" + " " +
                             name, Toast.LENGTH_LONG).show();
                 }
             }
@@ -80,14 +83,14 @@ public class DeviceList extends ActionBarActivity {
         btnPaired = (Button) findViewById(R.id.button);
         btStart = (Button) findViewById(R.id.btStart);
         devicelist = (ListView) findViewById(R.id.listView);
+        rssilist = (ListView) findViewById(R.id.listView2);
 
         myBluetooth = BluetoothAdapter.getDefaultAdapter();
 
         if (myBluetooth == null)
         {
             //Show a mensag. that thedevice has no bluetooth adapter
-            Toast.makeText(getApplicationContext(), "Bluetooth Device Not Available",
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Bluetooth Device Not Available", Toast.LENGTH_LONG).show();
             //finish apk
             finish();
         }
@@ -145,14 +148,12 @@ public class DeviceList extends ActionBarActivity {
                 list.add(bt.getName() + "\n" + bt.getAddress());
             }
         } else {
-            Toast.makeText(getApplicationContext(), "No Paired Bluetooth Devices Found.",
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "No Paired Bluetooth Devices Found.", Toast.LENGTH_LONG).show();
         }
 
         final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
         devicelist.setAdapter(adapter);
         devicelist.setOnItemClickListener(myListClickListener);
-        //hola
     }
 
     @Override
