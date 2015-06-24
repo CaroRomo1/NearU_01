@@ -152,6 +152,7 @@ public class DeviceList extends ActionBarActivity {
         final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
         devicelist.setAdapter(adapter);
         devicelist.setOnItemClickListener(myListClickListener);
+        //hola
     }
 
     @Override
