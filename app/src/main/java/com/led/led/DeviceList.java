@@ -34,6 +34,9 @@ public class DeviceList extends ActionBarActivity {
     ListView rssilist;
     boolean repeat = false;
     int rssi = 0;
+    int cont = 0;
+
+    ArrayList list2 = new ArrayList();
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -41,14 +44,11 @@ public class DeviceList extends ActionBarActivity {
 
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                ArrayList list2 = new ArrayList();
                 rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE);
                 String name = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
                 list2.add(name + " => " + rssi + "dBm\n");
                 //rssi_msg.setText(rssi_msg.getText() + name + " => " + rssi + "dBm\n");
-                ArrayAdapter adapter2 = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list2);
-                rssilist.setAdapter(adapter2);
-                if (rssi < -90) {
+                if ((name.equals("WEB-JESUS"))) {
                     vibrar();
                     Toast myToast = new Toast(getApplicationContext());
                     myToast.setGravity(9, 7, 7);
@@ -56,6 +56,8 @@ public class DeviceList extends ActionBarActivity {
                             name, Toast.LENGTH_LONG).show();
                 }
             }
+            ArrayAdapter adapter2 = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list2);
+            rssilist.setAdapter(adapter2);
         }
     };
     private BluetoothAdapter myBluetooth = null;
@@ -118,7 +120,6 @@ public class DeviceList extends ActionBarActivity {
     }
 
     private void start() {
-        myBluetooth.startDiscovery();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
                                 @Override
@@ -130,7 +131,9 @@ public class DeviceList extends ActionBarActivity {
                                     }
                                 }
                             },
-                5000);
+                20000);
+        myBluetooth.startDiscovery();
+        cont++;
     }
 
     private void vibrar() {
