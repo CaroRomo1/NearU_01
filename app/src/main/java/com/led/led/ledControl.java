@@ -12,8 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -24,8 +22,6 @@ public class ledControl extends ActionBarActivity {
     //SPP UUID. Look for it
     static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     Button btnOn, btnOff, btnDis;
-    SeekBar brightness;
-    TextView lumn;
     String address = null;
     BluetoothAdapter myBluetooth = null;
     BluetoothSocket btSocket = null;
@@ -91,7 +87,7 @@ public class ledControl extends ActionBarActivity {
     private void turnOffLed() {
         if (btSocket!=null) {
             try {
-                btSocket.getOutputStream().write("TF".toString().getBytes());
+                btSocket.getOutputStream().write("TF".getBytes());
             }
             catch (IOException e) {
                 msg("Error");
@@ -102,7 +98,7 @@ public class ledControl extends ActionBarActivity {
     private void turnOnLed() {
         if (btSocket!=null) {
             try {
-                btSocket.getOutputStream().write("TO".toString().getBytes());
+                btSocket.getOutputStream().write("TO".getBytes());
             }
             catch (IOException e) {
                 msg("Error");
