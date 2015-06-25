@@ -48,7 +48,7 @@ public class DeviceList extends ActionBarActivity {
                 String name = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
                 list2.add(name + " => " + rssi + "dBm\n");
                 //rssi_msg.setText(rssi_msg.getText() + name + " => " + rssi + "dBm\n");
-                if ((name.equals("WEB-JESUS") && (rssi < -90))) {
+                if ((name.equals("HC-06") && (rssi < -90))) {
                     vibrar();
                     Toast myToast = new Toast(getApplicationContext());
                     myToast.setGravity(9, 7, 7);
