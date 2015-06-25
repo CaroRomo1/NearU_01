@@ -43,6 +43,8 @@ public class ledControl extends ActionBarActivity {
         btnOn = (Button) findViewById(R.id.button2);
         btnOff = (Button) findViewById(R.id.button3);
         btnDis = (Button) findViewById(R.id.button4);
+        setTitle("Paired Device");
+
 
         new ConnectBT().execute(); //Call the class to connect
 

@@ -61,7 +61,6 @@ public class DeviceList extends ActionBarActivity {
         }
     };
     private BluetoothAdapter myBluetooth = null;
-    private Set<BluetoothDevice> pairedDevices;
     private OutputStream outStream = null;
     private AdapterView.OnItemClickListener myListClickListener = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
@@ -87,6 +86,7 @@ public class DeviceList extends ActionBarActivity {
         btStart = (Button) findViewById(R.id.btStart);
         devicelist = (ListView) findViewById(R.id.listView);
         rssilist = (ListView) findViewById(R.id.listView2);
+        setTitle("Device List");
 
         myBluetooth = BluetoothAdapter.getDefaultAdapter();
 
@@ -144,6 +144,7 @@ public class DeviceList extends ActionBarActivity {
 
     private void pairedDevicesList()
     {
+        Set<BluetoothDevice> pairedDevices;
         pairedDevices = myBluetooth.getBondedDevices();
         ArrayList list = new ArrayList();
 
